@@ -1,0 +1,14 @@
+configure.php,/var/www
+console.py,home/pi/EnergyMon/py
+css_file,css,/var/www
+dbfunc.py,home/pi/EnergyMon/py
+dbfunc_allen.py,home/pi/EnergyMon/py
+GetMeter.php,/var/www
+heartbeat.py,home/pi/EnergyMon/py
+index.php,/var/www
+plotfunc.py,home/pi/EnergyMon/py
+radio_rec.py,home/pi/EnergyMon/py
+rpi_garage_smartthings.py,home/pi/pi_garage_smartthings
+startstoprtl.sh,home/pi/EnergyMon/sh
+test.py,home/pi/EnergyMon/py
+wifiMon.sh,home/pi/EnergyMon/sh
