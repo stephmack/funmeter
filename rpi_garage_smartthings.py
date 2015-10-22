@@ -22,7 +22,7 @@ CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 """
 import sys
-sys.path.append('/home/pi/rpi_garage_smartthings')
+sys.path.append('/home/pi/pi_garage_smartthings')
 import math
 import os
 import numpy as np

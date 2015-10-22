@@ -2,7 +2,7 @@ configure.php,/var/www
 console.py,/home/pi/EnergyMon/py
 css_file.css,/var/www
 dbfunc.py,/home/pi/EnergyMon/py
-dbfunc_allen.py,/home/pi/EnergyMon/py
+dbfunc_st.py,/home/pi/pi_garage_smartthings
 GetMeter.php,/var/www
 heartbeat.py,/home/pi/EnergyMon/py
 index.php,/var/www
@@ -12,3 +12,10 @@ rpi_garage_smartthings.py,/home/pi/pi_garage_smartthings
 startstoprtl.sh,/home/pi/EnergyMon/sh
 test.py,/home/pi/EnergyMon/py
 wifiMon.sh,/home/pi/EnergyMon/sh
+app.groovy,/home/pi/pi_garage_smartthings
+devicetype.groovy,/home/pi/pi_garage_smartthings
+install.sh,/home/pi/pi_garage_smartthings
+rpi_garage_smartthings1.dat,/home/pi/pi_garage_smartthings
+rpi_garage_smartthings2.dat,/home/pi/pi_garage_smartthings
+rtl_tcp.c,/home/pi/EnergyMon/py/rtl-sdr/src
+scm.go,/home/pi/src/github.com/bemasher/rtlamr/scm
