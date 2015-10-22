@@ -19,3 +19,4 @@ rpi_garage_smartthings1.dat,/home/pi/pi_garage_smartthings
 rpi_garage_smartthings2.dat,/home/pi/pi_garage_smartthings
 rtl_tcp.c,/home/pi/EnergyMon/py/rtl-sdr/src
 scm.go,/home/pi/src/github.com/bemasher/rtlamr/scm
+export.sh,/home/pi/EnergyMon/sh
