@@ -51,15 +51,15 @@ try:
 except:
      print 'ctrl table already exists'
 
-with open('../ver/ver.txt', 'r') as f:
-     ver = f.readlines()
-     ver1 = str(ver[0])
-     ver1 = ver1.rstrip()
-     print ver1
-     try:
-          cur.execute("""UPDATE Utils.ctrl SET ver1 = %s WHERE ind = 1""",(ver))
-     except:
-          print 'Could not Update "ver"'
+#with open('../ver/ver.txt', 'r') as f:
+#     ver = f.readlines()
+#     ver1 = str(ver[0])
+#     ver1 = ver1.rstrip()
+#     print ver1
+#     try:
+#          cur.execute("""UPDATE Utils.ctrl SET ver1 = %s WHERE ind = 1""",(ver))
+#     except:
+#          print 'Could not Update "ver"'
 
 db.commit()
 cur.close()
