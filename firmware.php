@@ -31,7 +31,7 @@
 	}
 ?>
 <form action="firmware.php" method="post">
-<p>&nbsp &nbsp &nbsp &nbsp Current Firmware version is <?php echo $ver ?>, upgrade?: <select name="ver"><option value="No" Option>No</option><option value="Yes" Option>Yes</option></select></p>
+<p>&nbsp &nbsp &nbsp &nbsp Current Device Firmware Version: <?php echo $ver ?>, select "Yes" to upgrade?: <select name="ver"><option value="No" Option>No</option><option value="Yes" Option>Yes</option></select></p>
 <p>&nbsp &nbsp &nbsp &nbsp <input type="submit" value="Update Firmware"/></p>
 </form>
 
