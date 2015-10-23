@@ -119,8 +119,10 @@ def reset_dev():
           print 'utils_list does not exist...'
 
      try:
-          cur.execute("""CREATE TABLE IF NOT EXISTS utils_list1(UT VARCHAR(3) DEFAULT "XXX" NOT NULL,
-          MyLabel VARCHAR(15) DEFAULT "No Label" NOT NULL, ID INT(8) DEFAULT 00000000 NOT NULL)""")
+          cur.execute("""CREATE TABLE IF NOT EXISTS utils_list1(UT VARCHAR(3) DEFAULT "XXX" NOT
+          NULL,MyLabel VARCHAR(15) DEFAULT "No Label" NOT NULL, ID INT(8) DEFAULT 00000000 NOT NULL,
+          price FLOAT DEFAULT 0 NOT NULL, CurHr FLOAT DEFAULT 0 NOT NULL, LstHr FLOAT DEFAULT 0 NOT NULL,
+          CurDy FLOAT DEFAULT 0 NOT NULL, LstDy FLOAT DEFAULT 0 NOT NULL)""")
      except:
           print 'utils_list table already exists'
 
@@ -130,9 +132,9 @@ def reset_dev():
           print 'ctrl does not exist...'
 
      try:
-          cur.execute("""CREATE TABLE IF NOT EXISTS ctrl1(ind INT(1) DEFAULT 1 NOT NULL, meter_update_bit INT(1) DEFAULT 0 NOT NULL,
-          reset_bit INT(1) DEFAULT 0 NOT NULL, shutdown INT(1) DEFAULT 0 NOT NULL)""")
-          cur.execute("""INSERT INTO Utils.ctrl1 (ind, meter_update_bit, reset_bit, shutdown) VALUES(%s,%s,%s,%s)""", (1,0,0,0))
+          cur.execute("""CREATE TABLE IF NOT EXISTS ctrl(ind INT(1) DEFAULT 1 NOT NULL, meter_update_bit INT(1) DEFAULT 0 NOT NULL,
+          reset_bit INT(1) DEFAULT 0 NOT NULL, shutdown INT(1) DEFAULT 0 NOT NULL, timezone INT(11) DEFAULT 0 NOT NULL))""")
+          cur.execute("""INSERT INTO Utils.ctrl (ind, meter_update_bit, reset_bit, shutdown, timezone) VALUES(%s,%s,%s,%s,%s)""", (1,0,0,0,0))
      except:
           print 'utils_list table already exists'
 
