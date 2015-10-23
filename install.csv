@@ -21,3 +21,4 @@ rtl_tcp.c,/home/pi/EnergyMon/py/rtl-sdr/src
 scm.go,/home/pi/src/github.com/bemasher/rtlamr/scm
 go_install.sh,/home/pi/EnergyMon/sh
 install.py,/home/pi/EnergyMon/py
+ver.txt,/home/pi/EnergyMon/ver

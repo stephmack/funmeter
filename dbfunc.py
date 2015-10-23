@@ -134,9 +134,9 @@ def reset_dev():
      try:
           cur.execute("""CREATE TABLE IF NOT EXISTS ctrl(ind INT(1) DEFAULT 1 NOT NULL, meter_update_bit INT(1) DEFAULT 0 NOT NULL,
           reset_bit INT(1) DEFAULT 0 NOT NULL, shutdown INT(1) DEFAULT 0 NOT NULL, timezone INT(11) DEFAULT 0 NOT NULL,
-          ver VARCHAR(15) DEFAULT "1.0.0" NOT NULL, firmup INT(1) DEFAULT 0 NOT NULL)""")
-          cur.execute("""INSERT INTO Utils.ctrl (ind, meter_update_bit, reset_bit, shutdown, timezone, ver, firmup)
-          VALUES(%s,%s,%s,%s,%s,%s,%s)""", (1,0,0,0,0,'1.0.0',0))
+          ver1 VARCHAR(15) DEFAULT "1.0.0" NOT NULL, ver2 VARCHAR(15) DEFAULT "1.0.0" NOT NULL, firmup INT(1) DEFAULT 0 NOT NULL)""")
+          cur.execute("""INSERT INTO Utils.ctrl (ind, meter_update_bit, reset_bit, shutdown, timezone, ver1, ver2, firmup)
+          VALUES(%s,%s,%s,%s,%s,%s,%s,%s)""", (1,0,0,0,0,'1.0.0','1.0.0',0))
      except:
           print 'utils_list table already exists'
 
