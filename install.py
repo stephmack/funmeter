@@ -10,4 +10,4 @@ os.system('sudo python routine.py')
 
 #clean Up
 os.system('sudo rm -rf /home/pi/EnergyMon/py/funmeter')
-#os.system('sudo reboot')
+os.system('sudo reboot')
