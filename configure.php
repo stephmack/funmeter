@@ -129,6 +129,8 @@
         } else {
              echo "Error Removing ID: " . mysqli_error($con);
         }
+	mysqli_free_result($result1);
+        mysqli_close($con);
 }?>
 <?php if ($_POST['ID'] != NULL){
         echo '<p>'.htmlspecialchars($_POST['UT']).'</p>';
@@ -171,6 +173,8 @@
              mysqli_query($con, $sql);
              echo "Duplicate ID, NOT Added";
         }
+	mysqli_free_result($result1);
+        mysqli_close($con);
 }?>
 
 <?php if ($_POST['timezone'] != NULL){
@@ -183,6 +187,8 @@
         } else {
              echo "Error: " . $sql . "<br>" . mysqli_error($con);
         }
+	mysqli_free_result($result1);
+        mysqli_close($con);
 }
 }?>
 

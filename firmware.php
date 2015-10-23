@@ -29,6 +29,8 @@
                   $ver = $row1["ver1"];
 	     }
 	}
+        mysqli_free_result($result1);
+        mysqli_close($con);
 ?>
 <form action="firmware.php" method="post">
 <p>&nbsp &nbsp &nbsp &nbsp Current Device Firmware Version: <?php echo $ver ?>, select "Yes" to upgrade?: <select name="ver"><option value="No" Option>No</option><option value="Yes" Option>Yes</option></select></p>
@@ -45,7 +47,9 @@
         } else {
              echo "Error: " . $sql . "<br>" . mysqli_error($con);
         }
-	}
+        mysqli_free_result($result1);
+        mysqli_close($con);
+        }
 	if ($_POST['ver'] == 'No'){
         echo '<p>'.htmlspecialchars($_POST['timezone']).'</p>';
         $ver = htmlspecialchars($_POST['ver']);
@@ -56,6 +60,8 @@
         } else {
              echo "Error: " . $sql . "<br>" . mysqli_error($con);
         }
+        mysqli_free_result($result1);
+        mysqli_close($con);
 }
 }?>
 </div> <!--content-->
