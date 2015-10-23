@@ -172,6 +172,13 @@ def ctrl():
           print 'Device Shutting Down...'
           os.system('sudo halt')
 
+     if row[7] != 0:
+          cur.execute("""UPDATE Utils.ctrl SET firmup = 0 WHERE ind = 1""")
+          print 'Updating Firmware'
+          radio_rec.stop_radio()
+          os.system('sudo python install.py')
+
+
      db.commit()
      cur.close()
      db.close()
