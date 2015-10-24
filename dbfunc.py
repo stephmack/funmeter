@@ -4,7 +4,7 @@ import MySQLdb
 import os
 import numpy as np
 import warnings
-import dbfunc
+#import dbfunc
 import radio_rec
 
 warnings.filterwarnings("error")
@@ -60,6 +60,7 @@ def Utils_decimate():
      db.commit()
      cur.close()
      db.close()
+
 
 def Utils_List():
 	UtilsStr = ""
@@ -132,10 +133,10 @@ def reset_dev():
           print 'ctrl does not exist...'
 
      try:
-          cur.execute("""CREATE TABLE IF NOT EXISTS ctrl(ind INT(1) DEFAULT 1 NOT NULL, meter_update_bit INT(1) DEFAULT 0 NOT NULL,
+          cur.execute("""CREATE TABLE IF NOT EXISTS ctrl1(ind INT(1) DEFAULT 1 NOT NULL, meter_update_bit INT(1) DEFAULT 0 NOT NULL,
           reset_bit INT(1) DEFAULT 0 NOT NULL, shutdown INT(1) DEFAULT 0 NOT NULL, timezone INT(11) DEFAULT 0 NOT NULL,
           ver1 VARCHAR(15) DEFAULT "1.0.0" NOT NULL, ver2 VARCHAR(15) DEFAULT "1.0.0" NOT NULL, firmup INT(1) DEFAULT 0 NOT NULL)""")
-          cur.execute("""INSERT INTO Utils.ctrl (ind, meter_update_bit, reset_bit, shutdown, timezone, ver1, ver2, firmup)
+          cur.execute("""INSERT INTO Utils.ctrl1 (ind, meter_update_bit, reset_bit, shutdown, timezone, ver1, ver2, firmup)
           VALUES(%s,%s,%s,%s,%s,%s,%s,%s)""", (1,0,0,0,0,'1.0.0','1.0.0',0))
      except:
           print 'utils_list table already exists'
@@ -146,7 +147,7 @@ def reset_dev():
 
 
 def ctrl():
-#if (1):
+#if(1):
      db = MySQLdb.connect (host = "localhost", user = "root",passwd = "raspberry", db = "Utils")
      cur = db.cursor()
      cur.execute("""SELECT * FROM Utils.ctrl""")
@@ -174,11 +175,11 @@ def ctrl():
           os.system('sudo halt')
 
      if row[7] != 0:
-          cur.execute("""UPDATE Utils.ctrl SET firmup = 0 WHERE ind = 1""")
+          cur.execute("""UPDATE Utils.ctrl SET firmup=0 WHERE ind=1""")
+          db.commit()
           print 'Updating Firmware'
           radio_rec.stop_radio()
           os.system('sudo python install.py')
-
 
      db.commit()
      cur.close()
