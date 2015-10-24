@@ -57,10 +57,10 @@ with open('../ver/ver.txt', 'r') as f:
      ver1 = str(ver[0])
      ver1 = ver1.rstrip()
      print ver1
-     #try:
-     #cur.execute("""UPDATE Utils.ctrl SET ver1=%s WHERE ind=1""",(ver1))
-     #except:
-          #print 'Could not Update "ver"'
+try:
+     cur.execute("""UPDATE Utils.ctrl SET ver1=%s WHERE ind=1""",(ver1))
+except:
+     print 'Could not Update "ver"'
 
 db.commit()
 cur.close()
