@@ -146,6 +146,7 @@ def reset_dev():
 
 
 def ctrl():
+#if (1):
      db = MySQLdb.connect (host = "localhost", user = "root",passwd = "raspberry", db = "Utils")
      cur = db.cursor()
      cur.execute("""SELECT * FROM Utils.ctrl""")
