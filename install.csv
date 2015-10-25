@@ -25,3 +25,4 @@ ver.txt,/home/pi/EnergyMon/ver
 filedwnld.py,/home/pi/EnergyMon/py
 compile.py,/home/pi/EnergyMon/py
 routine.py,/home/pi/EnergyMon/py
+wifi.py,/home/pi/EnergyMon/py
