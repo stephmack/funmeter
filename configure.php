@@ -15,7 +15,7 @@
 <div id="menu">
     <a href="/index.php">Console</a>
     <a href="/configure.php">Configure</a>
-    <a href="/firmware.php">Firmware Update</a>
+    <a href="/firmware.php">Firmware/Netwk</a>
 </div>
 <div id="content">
 
@@ -120,23 +120,23 @@
 <?php if ($_POST['listbox'] != NULL){
 	//echo htmlspecialchars($_POST['listbox']);
 	$meter = htmlspecialchars($_POST['listbox']);
-	echo $meter;
+	#echo $meter;
         $sql = "DELETE FROM utils_list WHERE ID=$meter";
-	echo $sql;
+	#echo $sql;
         $con=mysqli_connect("localhost", "root", "raspberry", "Utils");
         if (mysqli_query($con, $sql)) {
-             echo "Meter Removed Successfully";
+             #echo "Meter Removed Successfully";
         } else {
-             echo "Error Removing ID: " . mysqli_error($con);
+             #echo "Error Removing ID: " . mysqli_error($con);
         }
 	mysqli_free_result($result1);
         mysqli_close($con);
 }?>
 <?php if ($_POST['ID'] != NULL){
-        echo '<p>'.htmlspecialchars($_POST['UT']).'</p>';
-	echo '<p>'.htmlspecialchars($_POST['MyLab']).'</p>';
-	echo '<p>'.htmlspecialchars($_POST['ID']).'</p>';
-	echo '<p>'.htmlspecialchars($_POST['Price']).'</p>';
+        #echo '<p>'.htmlspecialchars($_POST['UT']).'</p>';
+	#echo '<p>'.htmlspecialchars($_POST['MyLab']).'</p>';
+	#echo '<p>'.htmlspecialchars($_POST['ID']).'</p>';
+	#echo '<p>'.htmlspecialchars($_POST['Price']).'</p>';
 	$meter = htmlspecialchars($_POST['ID']);
         $sql = "SELECT * FROM utils_list WHERE ID=$meter";
 	$con=mysqli_connect("localhost", "root", "raspberry", "Utils");
@@ -144,25 +144,25 @@
 	if(mysqli_num_rows($result1)){
              while($row1=mysqli_fetch_row($result1)){
                   $json1[]=$row1;
-		  echo "test";
+		  #echo "test";
              }
         }
         if (!($json1)){
              $UT = htmlspecialchars($_POST['UT']);
              $LABEL = htmlspecialchars($_POST['MyLab']);
              $price = htmlspecialchars($_POST['Price']);
-             echo $UT.',';
-             echo $LABEL.',';
-	     echo $ID.',';
-	     echo $price.',';
+             #echo $UT.',';
+             #echo $LABEL.',';
+	     #echo $ID.',';
+	     #echo $price.',';
              //$sql = "INSERT INTO utils_list (UT, MyLabel, ID) VALUES ($UT,$LABEL,$meter)";
              $sql = "INSERT INTO utils_list (UT, MyLabel, ID, price)
              VALUES ('$UT','$LABEL','$meter','$price')";
              //echo $sql;
              if (mysqli_query($con, $sql)) {
-                  echo "New Meter created successfully";
+                  #echo "New Meter created successfully";
              } else {
-                  echo "Error: " . $sql . "<br>" . mysqli_error($con);
+                  #echo "Error: " . $sql . "<br>" . mysqli_error($con);
              }
              //$result1 = mysqli_query($con,$sql);
         } else {
@@ -171,21 +171,21 @@
              $price = htmlspecialchars($_POST['Price']);
              $sql = "UPDATE utils_list SET price='$price', UT='$UT', MyLabel='$LABEL' WHERE ID='$meter'";
              mysqli_query($con, $sql);
-             echo "Duplicate ID, NOT Added";
+             #echo "Duplicate ID, NOT Added";
         }
 	mysqli_free_result($result1);
         mysqli_close($con);
 }?>
 
 <?php if ($_POST['timezone'] != NULL){
-	echo '<p>'.htmlspecialchars($_POST['timezone']).'</p>';
+	#echo '<p>'.htmlspecialchars($_POST['timezone']).'</p>';
 	$timezone = htmlspecialchars($_POST['timezone']);
 	$con=mysqli_connect("localhost", "root", "raspberry", "Utils");
 	$sql = "UPDATE ctrl SET timezone='$timezone' WHERE ind=1";
 	if (mysqli_query($con, $sql)) {
-             echo "Timezone update successfully";
+             #echo "Timezone update successfully";
         } else {
-             echo "Error: " . $sql . "<br>" . mysqli_error($con);
+             #echo "Error: " . $sql . "<br>" . mysqli_error($con);
         }
 	mysqli_free_result($result1);
         mysqli_close($con);

@@ -15,7 +15,7 @@
 <div id="menu">
     <a href="/index.php">Console</a>
     <a href="/configure.php">Configure</a>
-    <a href="/firmware.php">Firmware Update</a>
+    <a href="/firmware.php">Firmware/Netwk</a>
 </div>
 <div id="content">
 	<?php

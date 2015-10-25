@@ -15,7 +15,7 @@
 <div id="menu">
     <a href="/index.php">Console</a>
     <a href="/configure.php">Configure</a>
-    <a href="/firmware.php">Firmware Update</a>
+    <a href="/firmware.php">Firmware/Netwk</a>
 </div>
 <div id="content">
 <?php
@@ -27,6 +27,8 @@
              while($row1=mysqli_fetch_assoc($result1)){
                   $json[]=$row1;
                   $ver = $row1["ver1"];
+		  $ssid = $row1["ssid"];
+		  
 	     }
 	}
         mysqli_free_result($result1);
@@ -37,33 +39,54 @@
 <p>&nbsp &nbsp &nbsp &nbsp <input type="submit" value="Update Firmware"/></p>
 </form>
 
+<form action="firmware.php" method="post">
+<p>&nbsp &nbsp &nbsp &nbsp Enter SSID (current "<?php echo $ssid ?>"): <input type="text" name="ssid" /></p>
+<p>&nbsp &nbsp &nbsp &nbsp Enter PASSWORD: <input type="text" name="psswrd" /></p>
+<p>&nbsp &nbsp &nbsp &nbsp <input type="submit" value="Update WiFi"/></p>
+</form>
+
 <?php if ($_POST['ver'] == 'Yes'){
-        echo '<p>'.htmlspecialchars($_POST['timezone']).'</p>';
+        #echo '<p>'.htmlspecialchars($_POST['timezone']).'</p>';
         $ver = htmlspecialchars($_POST['ver']);
         $con=mysqli_connect("localhost", "root", "raspberry", "Utils");
         $sql = "UPDATE ctrl SET firmup='1' WHERE ind=1";
         if (mysqli_query($con, $sql)) {
-             echo "Updateing Firmware successfully";
+             #echo "Updateing Firmware successfully";
         } else {
-             echo "Error: " . $sql . "<br>" . mysqli_error($con);
+             #echo "Error: " . $sql . "<br>" . mysqli_error($con);
         }
         mysqli_free_result($result1);
         mysqli_close($con);
         }
 	if ($_POST['ver'] == 'No'){
-        echo '<p>'.htmlspecialchars($_POST['timezone']).'</p>';
+        #echo '<p>'.htmlspecialchars($_POST['timezone']).'</p>';
         $ver = htmlspecialchars($_POST['ver']);
         $con=mysqli_connect("localhost", "root", "raspberry", "Utils");
         $sql = "UPDATE ctrl SET firmup='0' WHERE ind=1";
         if (mysqli_query($con, $sql)) {
-             echo "Do Not Upate...";
+             #echo "Do Not Upate...";
         } else {
-             echo "Error: " . $sql . "<br>" . mysqli_error($con);
+             #echo "Error: " . $sql . "<br>" . mysqli_error($con);
+        }
+        mysqli_free_result($result1);
+        mysqli_close($con);
+}}?>
+<?php if ($_POST['ssid'] != NULL){
+        #echo '<p>'.htmlspecialchars($_POST['ssid']).'</p>';
+	#echo '<p>'.htmlspecialchars($_POST['psswrd']).'</p>';
+        $ssid = htmlspecialchars($_POST['ssid']);
+	$psswrd = htmlspecialchars($_POST['psswrd']);
+        $con=mysqli_connect("localhost", "root", "raspberry", "Utils");
+        $sql = "UPDATE ctrl SET ssid='$ssid', passwrd='$psswrd', chgssid='1' WHERE ind=1";
+        if (mysqli_query($con, $sql)) {
+             #echo "Updateing Firmware successfully";
+        } else {
+             #echo "Error: " . $sql . "<br>" . mysqli_error($con);
         }
         mysqli_free_result($result1);
         mysqli_close($con);
 }
-}?>
+?>
 </div> <!--content-->
 <div class="spacer">&nbsp;</div>
 <div id="footer">Copyright &copy; 2015 3AVentures, Inc.</div>
