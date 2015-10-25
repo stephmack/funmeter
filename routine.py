@@ -42,11 +42,14 @@ except:
 
 try: 
      ver3 = "1.0.0"
+     ssid = "Washington"
+     passwrd = "southie1"
      cur.execute("""CREATE TABLE IF NOT EXISTS ctrl(ind INT(1) DEFAULT 1 NOT NULL, 
      meter_update_bit INT(1) DEFAULT 0 NOT NULL, reset_bit INT(1) DEFAULT 0 NOT NULL, shutdown INT(1) DEFAULT 0 NOT NULL, timezone INT(2) DEFAULT 0 NOT NULL,
-     ver1 VARCHAR(15) DEFAULT "XXX" NOT NULL, ver2 VARCHAR(15) DEFAULT "XXX" NOT NULL, firmup INT(1) DEFAULT 0 NOT NULL)""") 
-     cur.execute("""INSERT INTO Utils.ctrl (ind, meter_update_bit, reset_bit, shutdown, timezone, ver1, ver2, firmup) 
-     VALUES(%s,%s,%s,%s,%s,%s,%s,%s)""", (1, 0, 0, 0, 0, ver3, ver3, 0))
+     ver1 VARCHAR(15) DEFAULT "XXX" NOT NULL, ver2 VARCHAR(15) DEFAULT "XXX" NOT NULL, firmup INT(1) DEFAULT 0 NOT NULL, ssid VARCHAR(25) DEFAULT "NULL" NOT NULL,
+     passwrd VARCHAR(25) DEFAULT "NULL" NOT NULL, chgssid INT(1) DEFAULT 0 NOT NULL)""") 
+     cur.execute("""INSERT INTO Utils.ctrl (ind, meter_update_bit, reset_bit, shutdown, timezone, ver1, ver2, firmup, ssid, passwrd, chgssid) 
+     VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (1, 0, 0, 0, 0, ver3, ver3, 0, ssid, passwrd, 0))
 except:
      print 'ctrl table already exists'
 
