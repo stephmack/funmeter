@@ -18,6 +18,6 @@ os.system('sudo bash /home/pi/EnergyMon/sh/go_install.sh')
 os.chdir('/home/pi/EnergyMon/py')
 
 #Compile pi_garage_smartthings
-os.chdir('/home/pi/pi_garage_smartthings')
+os.chdir('/home/pi/rpi_garage_smartthings')
 os.system('sudo bash install.sh')
 os.chdir('/home/pi/EnergyMon/py')
