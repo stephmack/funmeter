@@ -4,7 +4,7 @@ import MySQLdb
 import os
 import numpy as np
 import warnings
-#import dbfunc
+import wifi
 import radio_rec
 
 warnings.filterwarnings("error")
@@ -180,6 +180,14 @@ def ctrl():
           print 'Updating Firmware'
           radio_rec.stop_radio()
           os.system('sudo python install.py')
+     if row[10] != 0:
+          cur.execute("""UPDATE Utils.ctrl SET chgssid=0 WHERE ind=1""")
+          db.commit()
+          print row[8]
+          print row[9]
+          wifi.update_wpa_supplicant(row[8], row[9])
+          print 'wifi info updated/added...'
+          os.system('sudo reboot')
 
      db.commit()
      cur.close()
