@@ -22,7 +22,7 @@ filedwnld.py,/home/pi/EnergyMon/py
 compile.py,/home/pi/EnergyMon/py
 routine.py,/home/pi/EnergyMon/py
 wifi.py,/home/pi/EnergyMon/py
-rtlamr,/etc/init.d
-rtl_tcp,/etc/init.d
 console.sh,/etc/init.d
 heartbeat.sh,/etc/init.d
+rtlamr,/etc/init.d
+rtl_tcp,/etc/init.d
