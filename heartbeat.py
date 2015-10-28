@@ -9,7 +9,7 @@ import urllib2
 i = 0
 #time1 = time.time()
 time1_int = 720  
-
+day_ref = time.strftime("%d")
 #radio_rec.radio_check()
 def radio_check():
 #if (1):
@@ -57,4 +57,15 @@ while(1):
                 radio_check()
            except:
 	        print 'Error HeartBeat...'
+      cur_day = time.strftime("%d")
+      if int(cur_day) != int(day_ref):
+	   try:
+	        os.system('sudo rm /home/pi/heartbeat_*.log')
+	   except:
+	        print 'Could not delete previous log file...'
+	   os.system('sudo cp /home/pi/heartbeat.log /home/pi/heartbeat_'+cur_day+'.log')
+	   os.system('sudo cp /home/pi/heartbeat_blank.log /home/pi/heartbeat.log')
+           print 'New log file started...'
+           day_ref = cur_day
+      
       time.sleep(time1_int)
