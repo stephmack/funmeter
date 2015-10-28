@@ -164,6 +164,12 @@
              } else {
                   #echo "Error: " . $sql . "<br>" . mysqli_error($con);
              }
+	     $sql = "UPDATE ctrl SET meter_update_bit=1 WHERE ind=1";
+             if (mysqli_query($con, $sql)) {
+                  #echo "Timezone update successfully";
+             } else {
+                  #echo "Error: " . $sql . "<br>" . mysqli_error($con);
+             }
              //$result1 = mysqli_query($con,$sql);
         } else {
              $UT = htmlspecialchars($_POST['UT']);

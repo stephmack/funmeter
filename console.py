@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import time 
 import math 
 import numpy as np 
@@ -5,7 +6,7 @@ import serial
 import os
 import MySQLdb
 import dbfunc
-import radio_rec
+#import radio_rec
 import plotfunc
 
 #Time Stuff
@@ -17,39 +18,24 @@ time3_int = 180#3600
 time3 = time1
 case = 0
 #Read Utils
-UtilsStr = dbfunc.Utils_List()
+#UtilsStr = dbfunc.Utils_List()
 #Start rtl_tcp and rtlamr
-radio_rec.start_radio(UtilsStr)
+#radio_rec.start_radio(UtilsStr)
 plotfunc.plot_seven()
 plotfunc.plot_hour()
 plotfunc.plot_day()
 plotfunc.plot_month()
 while(1):
      if (time.time() - time1 >= time1_int):
-	  try:
-	  #Stop rtl_tcp and rtlamr
-	  #radio_rec.stop_radio()
-	  #Update Utils tables
+          try:
 	       dbfunc.Utils_decimate()
-	       UtilsStr = dbfunc.Utils_List()
-	  #Start trl_tcp and rtlamr
-	  #radio_rec.start_radio(UtilsStr)
-	  #Resets the Timer
-	  #print time.time()
-               #radio_rec.radio_check(UtilsStr)
+	       #UtilsStr = dbfunc.Utils_List()
           except:
                print 'Error in Main Function...'
 	  time1 = time.time()
 
-     if (time.time() - time2 >= time2_int):
-          try:
- 	       dbfunc.ctrl()
-	  except:
-	       print 'Error in ctrl function...'
-          time2 = time.time()
-
      if (time.time() - time3 >= time3_int):
-	  try:
+          try:
 	       if case == 0:
                      plotfunc.plot_seven()
 		     case = 1
@@ -67,3 +53,7 @@ while(1):
 
           time3 = time.time()
      time.sleep(time2_int)
+     try:
+          dbfunc.ctrl()
+     except:
+          print 'Error in ctrl function...'

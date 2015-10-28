@@ -157,12 +157,12 @@ def ctrl():
      if row[1] != 0:
           cur.execute("""UPDATE Utils.ctrl SET meter_update_bit = 0 WHERE ind = 1""")
           print 'Utility Number Updated...'
-          #Stop rtl_tcp and rtlamr
-          radio_rec.stop_radio()
-          dbfunc.Utils_decimate()
-          UtilsStr = dbfunc.Utils_List()
+          ##Stop rtl_tcp and rtlamr
+          #radio_rec.stop_radio()
+          #dbfunc.Utils_decimate()
+          #UtilsStr = dbfunc.Utils_List()
           #Start trl_tcp and rtlamr
-          radio_rec.start_radio(UtilsStr)                
+          #radio_rec.start_radio(UtilsStr)                
      
      if row[2] != 0:
           cur.execute("""UPDATE Utils.ctrl SET reset_bit = 0 WHERE ind = 1""")
@@ -178,7 +178,10 @@ def ctrl():
           cur.execute("""UPDATE Utils.ctrl SET firmup=0 WHERE ind=1""")
           db.commit()
           print 'Updating Firmware'
-          radio_rec.stop_radio()
+	  os.system('sudo /etc/init.d/rtl_tcp stop')
+          time.sleep(3)
+          os.system('sudo /etc/init.d/rtlamr stop')          
+	  #radio_rec.stop_radio()
           os.system('sudo python install.py')
      if row[10] != 0:
           cur.execute("""UPDATE Utils.ctrl SET chgssid=0 WHERE ind=1""")
