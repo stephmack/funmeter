@@ -182,7 +182,7 @@ def ctrl():
           time.sleep(3)
           os.system('sudo /etc/init.d/rtlamr stop')          
 	  #radio_rec.stop_radio()
-          os.system('sudo python install.py')
+          os.system('sudo python /home/pi/EnergyMon/py/install.py')
      if row[10] != 0:
           cur.execute("""UPDATE Utils.ctrl SET chgssid=0 WHERE ind=1""")
           db.commit()

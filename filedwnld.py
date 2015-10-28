@@ -5,7 +5,7 @@ import warnings
 
 warnings.filterwarnings("error")
 os.system('sudo git clone git://github.com/stephmack/funmeter.git')
-with open('funmeter/install.csv', 'r') as f:
+with open('/home/pi/EnergyMon/py/funmeter/install.csv', 'r') as f:
      for read_data in f.readlines():
      #read_data = f.readline()
      #print (read_data)
@@ -15,5 +15,5 @@ with open('funmeter/install.csv', 'r') as f:
           dst = dst.rstrip()
           print filename
           print dst
-          shutil.copyfile('funmeter/'+filename, str(dst+"/"+filename))
+          shutil.copyfile('home/pi/EnergyMon/py/funmeter/'+filename, str(dst+"/"+filename))
 f.closed

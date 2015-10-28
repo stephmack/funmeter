@@ -53,7 +53,7 @@ try:
 except:
      print 'ctrl table already exists'
 
-with open('../ver/ver.txt', 'r') as f:
+with open('/home/pi/EnergyMon/ver/ver.txt', 'r') as f:
      ver = f.readlines()
      ver1 = str(ver[0])
      ver1 = ver1.rstrip()
