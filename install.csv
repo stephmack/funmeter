@@ -8,8 +8,6 @@ heartbeat.py,/home/pi/EnergyMon/py
 index.php,/var/www
 plotfunc.py,/home/pi/EnergyMon/py
 rpi_garage_smartthings.py,/home/pi/rpi_garage_smartthings
-startstoprtl.sh,/home/pi/EnergyMon/sh
-wifiMon.sh,/home/pi/EnergyMon/sh
 app.groovy,/home/pi/rpi_garage_smartthings
 devicetype.groovy,/home/pi/rpi_garage_smartthings
 install.sh,/home/pi/rpi_garage_smartthings
@@ -24,3 +22,7 @@ filedwnld.py,/home/pi/EnergyMon/py
 compile.py,/home/pi/EnergyMon/py
 routine.py,/home/pi/EnergyMon/py
 wifi.py,/home/pi/EnergyMon/py
+rtlamr,/etc/init.d
+rtl_tcp,/etc/init.d
+console.sh,/etc/init.d
+heartbeat.sh,/etc/init.d
