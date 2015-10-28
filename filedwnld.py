@@ -15,5 +15,5 @@ with open('/home/pi/EnergyMon/py/funmeter/install.csv', 'r') as f:
           dst = dst.rstrip()
           print filename
           print dst
-          shutil.copyfile('home/pi/EnergyMon/py/funmeter/'+filename, str(dst+"/"+filename))
+          shutil.copyfile('/home/pi/EnergyMon/py/funmeter/'+filename, str(dst+"/"+filename))
 f.closed
