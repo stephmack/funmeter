@@ -7,10 +7,8 @@ GetMeter.php,/var/www
 heartbeat.py,/home/pi/EnergyMon/py
 index.php,/var/www
 plotfunc.py,/home/pi/EnergyMon/py
-radio_rec.py,/home/pi/EnergyMon/py
 rpi_garage_smartthings.py,/home/pi/rpi_garage_smartthings
 startstoprtl.sh,/home/pi/EnergyMon/sh
-test.py,/home/pi/EnergyMon/py
 wifiMon.sh,/home/pi/EnergyMon/sh
 app.groovy,/home/pi/rpi_garage_smartthings
 devicetype.groovy,/home/pi/rpi_garage_smartthings
