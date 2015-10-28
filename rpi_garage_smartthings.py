@@ -27,7 +27,7 @@ import math
 import os
 import numpy as np
 import warnings
-import dbfunc
+import dbfunc_st
 import argparse
 import logging
 from time import time
@@ -159,7 +159,7 @@ class StatusServer(resource.Resource):
             else:
                 cmd = 'status-open'
             #msg='[1:[Reading:9845152, ind:12996, DT:1444417239.67782, M_Usage:3], 0:[Reading:9844274, ind:12799, DT:1444363355.41579, M_Usage:5], REQ:1]'
-	    msg = dbfunc.getMeterValues() 
+	    msg = dbfunc_st.getMeterValues() 
 	    #msg = '<msg><cmd>%s</cmd><usn>uuid:%s::%s</usn></msg>' % (cmd, UUID, self.device_target)
             logging.info("Polling request from %s for %s - returned %s",
                          request.getClientIP(),
@@ -244,7 +244,7 @@ class GarageMonitor(object):
 		global urllist
 		mytuple = urllist.partition("/status/")
 		logging.info("Meter Number %s", mytuple[2])
-                msg = dbfunc.getMeterValues(mytuple[2])
+                msg = dbfunc_st.getMeterValues(mytuple[2])
 		#msg = '<msg><cmd>%s</cmd><usn>uuid:%s::%s</usn></msg>' % (cmd, UUID, self.device_target)
 		logging.info("Message: %s", msg)
                 body = StringProducer(msg)
