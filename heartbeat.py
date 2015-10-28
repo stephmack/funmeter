@@ -5,7 +5,7 @@ import dbfunc
 import subprocess
 import urllib2
 
-os.system('sudo rm /home/pi/heartbeat.log')
+#os.system('sudo rm /home/pi/heartbeat.log')
 i = 0
 #time1 = time.time()
 time1_int = 720  
