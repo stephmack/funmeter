@@ -11,8 +11,8 @@ rpi_garage_smartthings.py,/home/pi/rpi_garage_smartthings
 app.groovy,/home/pi/rpi_garage_smartthings
 devicetype.groovy,/home/pi/rpi_garage_smartthings
 install.sh,/home/pi/rpi_garage_smartthings
-rpi_garage_smartthings1.dat,/home/pi/rpi_garage_smartthings
-rpi_garage_smartthings2.dat,/home/pi/rpi_garage_smartthings
+rpi_garage_smartthings1,/home/pi/rpi_garage_smartthings
+rpi_garage_smartthings2,/home/pi/rpi_garage_smartthings
 rtl_tcp.c,/home/pi/EnergyMon/py/rtl-sdr/src
 scm.go,/home/pi/src/github.com/bemasher/rtlamr/scm
 go_install.sh,/home/pi/EnergyMon/sh
