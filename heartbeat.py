@@ -64,7 +64,7 @@ while(1):
 	   except:
 	        print 'Could not delete previous log file...'
 	   os.system('sudo cp /home/pi/heartbeat.log /home/pi/heartbeat_'+cur_day+'.log')
-	   os.system('sudo cp /home/pi/heartbeat_blank.log /home/pi/heartbeat.log')
+	   os.system('sudo cp /home/pi/blank.log /home/pi/heartbeat.log')
            print 'New log file started...'
            day_ref = cur_day
       
