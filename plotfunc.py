@@ -15,7 +15,7 @@ def plot_seven():
       db = MySQLdb.connect (host = "localhost", user = "root",passwd = "raspberry", db = "Utils")
       cur = db.cursor()
       try:
-           cur.execute("""SELECT UT, MyLabel, ID, price FROM Utils.utils_list""")
+           cur.execute("""SELECT UT, MyLabel, ID, price, month FROM Utils.utils_list""")
            res = cur.fetchall()
       except:
            res = ""
@@ -26,6 +26,7 @@ def plot_seven():
                  UtilsName = row[0]
                  price = row[3]
                  metername = row[1]
+		 month = row[4]
                  cur.execute("""SELECT timezone FROM Utils.ctrl""")
                  res = cur.fetchall()
                  timezone = res[0]
@@ -71,8 +72,9 @@ def plot_seven():
                       #     u_diff[x] = 0
                  print u_diff/100
                  print str_day_array     
- 		 cur.execute("""UPDATE Utils.utils_list SET CurDy = %s WHERE ID = %s""", (u_diff[6], UtilsID))
-		 cur.execute("""UPDATE Utils.utils_list SET LstDy = %s WHERE ID = %s""", (u_diff[5], UtilsID))
+		 if (month == 0):
+ 		      cur.execute("""UPDATE Utils.utils_list SET CurDy = %s WHERE ID = %s""", (u_diff[6], UtilsID))
+		      cur.execute("""UPDATE Utils.utils_list SET LstDy = %s WHERE ID = %s""", (u_diff[5], UtilsID))
                  plt.figure(figsize=(4,3))
                  matplotlib.rcParams.update({'font.size': 8})
                  N = 7
@@ -207,7 +209,7 @@ def plot_day():
       db = MySQLdb.connect (host = "localhost", user = "root",passwd = "raspberry", db = "Utils")
       cur = db.cursor()
       try:
-           cur.execute("""SELECT UT, MyLabel, ID, price  FROM Utils.utils_list""")
+           cur.execute("""SELECT UT, MyLabel, ID, price, month FROM Utils.utils_list""")
            res = cur.fetchall()
       except:
            res = ""
@@ -218,6 +220,7 @@ def plot_day():
                  UtilsName = row[0]
   		 price = row[3]
                  metername = row[1]
+		 month = row[4]
                  cur.execute("""SELECT timezone FROM Utils.ctrl""")
                  res = cur.fetchall()
                  timezone = res[0]
@@ -259,8 +262,9 @@ def plot_day():
                       #     u_diff[x] = 0
                  print u_diff/100
                  print str_day_array
-		 cur.execute("""UPDATE Utils.utils_list SET CurHr = %s WHERE ID = %s""", (u_diff[23], UtilsID))
-                 cur.execute("""UPDATE Utils.utils_list SET LstHr = %s WHERE ID = %s""", (u_diff[22], UtilsID))
+		 if (month == 0):
+		      cur.execute("""UPDATE Utils.utils_list SET CurHr = %s WHERE ID = %s""", (u_diff[23], UtilsID))
+                      cur.execute("""UPDATE Utils.utils_list SET LstHr = %s WHERE ID = %s""", (u_diff[22], UtilsID))
 		 plt.figure(figsize=(6,3))
                  matplotlib.rcParams.update({'font.size': 7})
                  N = 24
@@ -311,7 +315,7 @@ def plot_month():
       db = MySQLdb.connect (host = "localhost", user = "root",passwd = "raspberry", db = "Utils")
       cur = db.cursor()
       try:
-           cur.execute("""SELECT UT, MyLabel, ID, price FROM Utils.utils_list""")
+           cur.execute("""SELECT UT, MyLabel, ID, price, month FROM Utils.utils_list""")
            res = cur.fetchall()
       except:
            res = ""
@@ -322,6 +326,7 @@ def plot_month():
                  UtilsName = row[0]
                  price = row[3]
                  metername = row[1]
+                 month = row[4]
                  cur.execute("""SELECT timezone FROM Utils.ctrl""")
                  res = cur.fetchall()
                  timezone = res[0]
@@ -329,6 +334,7 @@ def plot_month():
                  row1 = np.zeros(12, dtype = "double")
                  row2 = np.zeros(12, dtype = "double")
 		 u_diff = np.zeros(12, dtype = "double")
+		 u_diff1 = np.zeros(12, dtype = "double")
                  str_day_array = [] #np.chararray((8, 10))
                  cur_dt = time.time() + (3600*timezone[0])
 		 value = datetime.datetime.fromtimestamp(cur_dt)
@@ -349,23 +355,32 @@ def plot_month():
 		      str_end = value.strftime(str(cur_month)+ str(numdays) + str(cur_year) + ' 23:59:59')
 		      start_time = time.mktime(time.strptime(str_start, '%m%d%Y %H:%M:%S')) - 3600*timezone[0]
 		      end_time = time.mktime(time.strptime(str_end, '%m%d%Y %H:%M:%S')) - 3600*timezone[0]
-		      print numdays
+#		      print numdays
 		      value1 = datetime.datetime.fromtimestamp(start_time)
 		      str_day = value1.strftime('%b')
                       str_day_array.append(str_day)
                       cur.execute("""SELECT ind, DT, Reading, M_Usage FROM Utils.scm_hist WHERE (((DT >= %s) and (DT < %s)) and ID=%s)""", (start_time, end_time, UtilsID))
                       res = cur.fetchall()
                       if len(res) > 0:
-                           rows1 = res[len(res)-1]
-                           rows2 = res[0]
-                           row1[x] = rows1[2]
-                           row2[x] = rows2[2]
+                           if (month):
+			        rows1 = res[len(res)-1]
+				rows2 = rows1
+			 	row1[x] = rows1[2]
+                                row2[x] = rows2[2]
+			   else:
+			        rows1 = res[len(res)-1]
+                                rows2 = res[0]
+                                row1[x] = rows1[2]
+                                row2[x] = rows2[2]
                       else:
                            row1[x] = 0
                            row2[x] = 0
 
                       if ((row2[x] != 0) and  (row1[x] != 0)):
-                      	   u_diff[x] = row1[x] - row2[x]
+			  if (month):
+			       u_diff[x] = row1[x]
+			  else:
+                      	       u_diff[x] = row1[x] - row2[x]
                       else:
                            u_diff[x] = 0
 
@@ -374,8 +389,17 @@ def plot_month():
                            cur_year = cur_year + 1
                       else:
                            cur_month = cur_month + 1
-
-                 print u_diff/100
+		 if (month):
+		      for x in range(1, 12):
+			   if u_diff[x-1] != 0:
+			        u_diff1[x] =  (u_diff[x] - u_diff[x-1])
+                           else:
+				u_diff1[x] = 0
+		      print u_diff1/100
+		      cur.execute("""UPDATE Utils.utils_list SET CurDy = %s WHERE ID = %s""", (u_diff1[11], UtilsID))
+                      cur.execute("""UPDATE Utils.utils_list SET LstDy = %s WHERE ID = %s""", (u_diff1[10], UtilsID))
+		 else:
+		      print u_diff/100
                  print str_day_array
                  plt.figure(figsize=(4,3))#
 		 matplotlib.rcParams.update({'font.size': 8})
@@ -400,6 +424,32 @@ def plot_month():
                       plt.xticks(ind+width/2,str_day_array)
                       plt.show()
                       plt.savefig("/var/www/months_"+str(UtilsName)+"_"+str(UtilsID)+".png")
+		 elif UtilsName[0] == 'G':
+		      if (month):
+		           rects1 = plt.bar(ind, u_diff1/100, width, color='g', label='CCF')
+
+		      else:
+		           rects1 = plt.bar(ind, u_diff/100, width, color='g', label='CCF')
+                      legend = plt.legend(loc='upper left', shadow=True)
+                      for rect in rects1:
+                           height = rect.get_height()
+                           if height > 0:
+                                plt.text(rect.get_x()+rect.get_width()/2., 1.03*height, '$%.2f'%float(height*price),
+                                ha='center', va='bottom')
+                      x1,x2,y1,y2 = plt.axis()
+                      plt.axis((x1-.5,x2,y1,y2+12))
+                      plt.ylabel('CCF')
+                      cur_time = datetime.datetime.fromtimestamp(time.time() + 3600*timezone[0])
+                      str_day = cur_time.strftime('%m/%d/%Y %H:%M:%S')
+                      plt.xlabel('Generated: '+ str_day)
+		      if (month):
+			   plt.title(metername+': CCF Usage ($'+str(format((u_diff1.sum()/100)*price, '.2f'))+')')
+		      else:
+                           plt.title(metername+': CCF Usage ($'+str(format((u_diff.sum()/100)*price, '.2f'))+')')
+                      plt.xticks(ind+width/2,str_day_array)
+                      plt.show()
+                      plt.savefig("/var/www/months_"+str(UtilsName)+"_"+str(UtilsID)+".png")
+
       db.commit()
       cur.close()
       db.close()

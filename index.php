@@ -34,6 +34,7 @@
 		  $LstHr = $row1["LstHr"];
 		  $CurDy = $row1["CurDy"];
                   $LstDy = $row1["LstDy"];
+		  $month = $row1["month"];
 		  $hund = 100;
 		  $ten = 10;
 		  echo '<table style="width:100%">';
@@ -44,34 +45,61 @@
 		  echo " - Meter #: ";
 		  echo $ID;
 		  echo '</h1></td></tr></table>';
-		  echo '<h3> &nbsp &nbsp HOUR: '.$CurHr/$hund.' kWh';
-		  echo '&nbsp &nbsp LAST HOUR: '.$LstHr/$hund.' kWh<br>';
-		  echo '&nbsp &nbsp TODAY: '.$CurDy/$hund.' kWh';
-                  echo '&nbsp &nbsp YESTERDAY: '.$LstDy/$hund.' kWh</h3>';
-		  echo '<table style="width:50%" align="center">';
-		  echo '<tr>';
-		  echo '<td align="center" width="50%"><img src=';
-                  echo "one_hour_".$UT."_".$ID.".png";
-                  echo ' alt="one hour"';
-                  echo 'style="width:325px;height:250px;"';
-		  echo '></td>';
-		  echo '<td align="center" width="50%"><img src=';
-		  echo "one_day_".$UT."_".$ID.".png";
-		  echo ' alt="one day"';
-		  echo 'style="width:400px;height:225px;"';
-		  echo '></td></tr>';
-		  echo '<tr>';
-		  echo '<td align="center" width="50%"><img src=';
-		  echo "seven_days_".$UT."_".$ID.".png";
-		  echo ' alt="seven days"';
-		  echo 'style="width:325px;height:250px;"'; 
-		  echo  '></td>';
-		  echo '<td align="center" width="50%"><img src=';
-                  echo "months_".$UT."_".$ID.".png";
-                  echo ' alt="months"';
-                  echo 'style="width:325px;height:250px;"';
-                  echo  '></td></tr>';
-		  echo '</table>';
+                  if ($UT == 'ELC'){
+		  	echo '<h3> &nbsp &nbsp HOUR: '.$CurHr/$hund.' kWh';
+		  	echo '&nbsp &nbsp LAST HOUR: '.$LstHr/$hund.' kWh<br>';
+		  	echo '&nbsp &nbsp TODAY: '.$CurDy/$hund.' kWh';
+                  	echo '&nbsp &nbsp YESTERDAY: '.$LstDy/$hund.' kWh</h3>';
+		  }
+		  elseif ($UT == 'GAS'){
+			if ($month){
+				echo '<h3>&nbsp &nbsp MONTH: '.$CurDy/$hund.' CCF';
+                                echo '&nbsp &nbsp LAST MONTH: '.$LstDy/$hund.' CCF</h3>';
+			}
+			else{
+				echo '<h3> &nbsp &nbsp HOUR: '.$CurHr/$hund.' CCF';
+                        	echo '&nbsp &nbsp LAST HOUR: '.$LstHr/$hund.' CCF<br>';
+                        	echo '&nbsp &nbsp TODAY: '.$CurDy/$hund.' CCF';
+                        	echo '&nbsp &nbsp YESTERDAY: '.$LstDy/$hund.' CCF</h3>';
+			}
+		  }
+		  if ($month){
+		   	echo '<table style="width:50%" align="center">';
+                        echo '<tr>';
+                        echo '<td align="center" width="50%"><img src=';
+                        echo "months_".$UT."_".$ID.".png";
+                        echo ' alt="month"';
+                        echo 'style="width:325px;height:250px;"';
+                        echo '></td>';
+			echo  '</tr>';
+                        echo '</table>';
+		  }
+		  else{
+		  	echo '<table style="width:50%" align="center">';
+		  	echo '<tr>';
+		  	echo '<td align="center" width="50%"><img src=';
+                  	echo "one_hour_".$UT."_".$ID.".png";
+                  	echo ' alt="one hour"';
+                  	echo 'style="width:325px;height:250px;"';
+		  	echo '></td>';
+		  	echo '<td align="center" width="50%"><img src=';
+		  	echo "one_day_".$UT."_".$ID.".png";
+		  	echo ' alt="one day"';
+		  	echo 'style="width:400px;height:225px;"';
+		  	echo '></td></tr>';
+		  	echo '<tr>';
+		  	echo '<td align="center" width="50%"><img src=';
+		  	echo "seven_days_".$UT."_".$ID.".png";
+		  	echo ' alt="seven days"';
+		 	echo 'style="width:325px;height:250px;"'; 
+	  	 	echo  '></td>';
+		  	echo '<td align="center" width="50%"><img src=';
+                  	echo "months_".$UT."_".$ID.".png";
+                  	echo ' alt="months"';
+                  	echo 'style="width:325px;height:250px;"';
+                  	echo  '></td></tr>';
+		  	echo '</table>';
+		  }
              }
         }
 	mysqli_free_result($result1);

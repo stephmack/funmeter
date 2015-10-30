@@ -21,12 +21,13 @@
 
 <?php
 	echo '&nbsp &nbsp &nbsp &nbsp<table style="width:50%" border= "1">';
-	echo '<tr><td colspan="4" align="center" width="25%"><b>My Utility Meters</b></td></tr>';
+	echo '<tr><td colspan="5" align="center" width="25%"><b>My Utility Meters</b></td></tr>';
         echo '<tr>';
         echo '<td align="center" width="25%"><b><i>Utility</i></b></td>';
         echo '<td align="center" width="25%"><b><i>Label</i></b></td>';
         echo '<td align="center" width="25%"><b><i>Meter ID</i></b></td>';
 	echo '<td align="center" width="25%"><b><i>Price</i></b></td>';
+	echo '<td align="center" width="25%"><b><i>Monthly Update</i></b></td>';
         echo '</tr>';
         include("constants.php");
         $cnt = 0;
@@ -44,6 +45,13 @@
                   $LstHr = $row1["LstHr"];
                   $CurDy = $row1["CurDy"];
                   $LstDy = $row1["LstDy"];
+		  $month = $row1["month"];
+		  if ($month){
+		       $mon_char = 'Yes';
+		  }
+		  else{
+		       $mon_char = 'No';
+		  }
                   $hund = 100;
                   $ten = 10;
                   $cnt = $cnt + 1;
@@ -52,6 +60,7 @@
 		  echo '<td align="center" width="25%">'.$MyLab.'</td>';
 		  echo '<td align="center" width="25%">'.$ID.'</td>';
 		  echo '<td align="center" width="25%">'.$price.'</td>';
+		  echo '<td align="center" width="25%">'.$mon_char.'</td>';
 		  echo '</tr>';
              }
         }
@@ -107,6 +116,7 @@
 <p>&nbsp &nbsp &nbsp &nbsp Meter Label: <input type="text" name="MyLab" /></p>
 <p>&nbsp &nbsp &nbsp &nbsp Meter ID: <input type="text" name="ID" /></p>
 <p>&nbsp &nbsp &nbsp &nbsp Cost: <input type="text" name="Price" /></p>
+<p>&nbsp &nbsp &nbsp &nbsp Updated Monthly Only: <select name="month"><option value="No" Option>No</option><option value="Yes" Option>Yes</option></select></p>
 <p>&nbsp &nbsp &nbsp &nbsp <input type="submit" value="Add/Update Meter"/></p>
 </form>
 
@@ -151,13 +161,20 @@
              $UT = htmlspecialchars($_POST['UT']);
              $LABEL = htmlspecialchars($_POST['MyLab']);
              $price = htmlspecialchars($_POST['Price']);
+	     $month = htmlspecialchars($_POST['month']);
              #echo $UT.',';
              #echo $LABEL.',';
 	     #echo $ID.',';
 	     #echo $price.',';
+	     if ($month == 'Yes'){
+	          $month = 1;
+	     }
+	     else{
+		  $month = 0;
+	     }
              //$sql = "INSERT INTO utils_list (UT, MyLabel, ID) VALUES ($UT,$LABEL,$meter)";
-             $sql = "INSERT INTO utils_list (UT, MyLabel, ID, price)
-             VALUES ('$UT','$LABEL','$meter','$price')";
+             $sql = "INSERT INTO utils_list (UT, MyLabel, ID, price, month)
+             VALUES ('$UT','$LABEL','$meter','$price','$month')";
              //echo $sql;
              if (mysqli_query($con, $sql)) {
                   #echo "New Meter created successfully";
