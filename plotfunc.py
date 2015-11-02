@@ -391,7 +391,7 @@ def plot_month():
                            cur_month = cur_month + 1
 		 if (month):
 		      for x in range(1, 12):
-			   if u_diff[x-1] != 0:
+			   if (u_diff[x-1] != 0) and (u_diff[x] != 0):
 			        u_diff1[x] =  (u_diff[x] - u_diff[x-1])
                            else:
 				u_diff1[x] = 0
