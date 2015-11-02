@@ -26,3 +26,5 @@ console.sh,/etc/init.d
 heartbeat.sh,/etc/init.d
 rtlamr,/etc/init.d
 rtl_tcp,/etc/init.d
+subscribe1.cfg,/home/pi/rpi_garage_smartthings
+subscribe2.cfg,/home/pi/rpi_garage_smartthings
