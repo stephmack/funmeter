@@ -83,11 +83,12 @@ if (mysqli_connect_errno())
              $LABEL = $_GET[LABEL];
 	     $timezone = $_GET[timezone];
 	     $price = $_GET[price];
+	     $STid = $_GET[STid];
              //echo $UT;
              //echo $LABEL;
              //$sql = "INSERT INTO utils_list (UT, MyLabel, ID) VALUES ($UT,$LABEL,$meter)";
-             $sql = "INSERT INTO utils_list (UT, MyLabel, ID, price)
-             VALUES ('$UT','$LABEL','$meter','$price')";
+             $sql = "INSERT INTO utils_list (UT, MyLabel, ID, price, STid)
+             VALUES ('$UT','$LABEL','$meter','$price','$STid')";
              //echo $sql;
              if (mysqli_query($con, $sql)) {
                   echo "New ID created successfully";
@@ -100,7 +101,8 @@ if (mysqli_connect_errno())
              $LABEL = $_GET[LABEL];
              $timezone = $_GET[timezone];
              $price = $_GET[price];
-	     $sql = "UPDATE utils_list SET price='$price', UT='$UT', MyLabel='$LABEL' WHERE ID='$meter'";
+	     $STid = $_GET[STid];
+	     $sql = "UPDATE utils_list SET price='$price', UT='$UT', MyLabel='$LABEL', STid='$STid' WHERE ID='$meter'";
              mysqli_query($con, $sql);
              //echo "Duplicate ID, NOT Added";
         }

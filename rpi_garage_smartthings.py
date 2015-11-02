@@ -21,6 +21,7 @@ under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 """
+import ConfigParser
 import sys
 sys.path.append('/home/pi/rpi_garage_smartthings')
 import math
@@ -45,11 +46,31 @@ global time1
 time1 = time()
 global time1_int 
 global urllist
+global config
+global filename
+global filename1
+global filename2
+global UUID
+global UUID1
+global UUID2
+
+filename1 = '/home/pi/rpi_garage_smartthings/subscribe1.cfg'
+filename2 = '/home/pi/rpi_garage_smartthings/subscribe2.cfg'
+filename = ""
+UUID1 = '45eee359-3d36-4cf8-8a3a-680eb2d78b31'
+UUID2 = '45eee359-3d36-4cf8-8a3a-680eb2d78b32'
 urllist = "0"
+config = ConfigParser.ConfigParser()
+#filename = 'subscribe.cfg'
+#config.read(filename)
+#subsribeurl = config.get('section', 'subscribe_url')
+#config.set('section', 'subscribe_url', 'http://192.168.1.8:8080/status')
+#config.write(open(filename, 'w'))
+#print subsribeurl
 time1_int =  300
 SSDP_PORT = 1900
 SSDP_ADDR = '239.255.255.250'
-UUID = '45eee359-3d36-4cf8-8a3a-680eb2d78b31' #'d1c58eb4-9220-11e4-96fa-123b93f75cba'
+UUID = '45eee359-3d36-4cf8-8a3a-680eb2d78b32' #'d1c58eb4-9220-11e4-96fa-123b93f75cba'
 SEARCH_RESPONSE = 'HTTP/1.1 200 OK\r\nCACHE-CONTROL:max-age=30\r\nEXT:\r\nLOCATION:%s\r\nSERVER:Linux, UPnP/1.0, Pi_Garage/1.0\r\nST:%s\r\nUSN:uuid:%s::%s'
 
 def determine_ip_for_host(host):
@@ -115,6 +136,7 @@ class SSDPServer(DatagramProtocol):
             logging.info('Received %s %s for %s from %s:%d', cmd[0], cmd[1], search_target, host, port)
             url = 'http://%s:%d/status' % (determine_ip_for_host(host), self.status_port)
             response = SEARCH_RESPONSE % (url, search_target, UUID, self.device_target)
+	    logging.info('SEARCH_RESPONSE - %s - %s - %s - %s', url, search_target, UUID, self.device_target)
             self.port.write(response, (host, port))
         else:
             logging.debug('Ignored SSDP command %s %s', cmd[0], cmd[1])
@@ -138,13 +160,17 @@ class StatusServer(resource.Resource):
         """Handle subscribe requests from ST hub - hub wants to be notified of
            garage door status updates"""
         headers = request.getAllHeaders()
-        logging.debug("SUBSCRIBE: %s", headers)
+        logging.debug("SUBSCRIBE Request: %s", headers)
         if 'callback' in headers:
             cb_url = headers['callback'][1:-1]
-
+	    
             if not cb_url in self.subscription_list:
-                self.subscription_list[cb_url] = {}
-                global urllist 
+		self.subscription_list[cb_url] = {}
+		global urllist 
+		global config
+		global filename
+		config.set('section', 'subscribe_url', cb_url)
+		config.write(open(filename, 'w'))
 		urllist = cb_url
 		logging.info('Added subscription %s', cb_url)
             self.subscription_list[cb_url]['expiration'] = time() + 24 * 3600
@@ -158,13 +184,17 @@ class StatusServer(resource.Resource):
                 cmd = 'status-closed'
             else:
                 cmd = 'status-open'
+	    global urllist
+            mytuple = urllist.partition("/status/")
+            logging.info("Meter Number %s", mytuple[2])
             #msg='[1:[Reading:9845152, ind:12996, DT:1444417239.67782, M_Usage:3], 0:[Reading:9844274, ind:12799, DT:1444363355.41579, M_Usage:5], REQ:1]'
-	    msg = dbfunc_st.getMeterValues() 
+	    msg = dbfunc_st.getMeterValues(mytuple[2])
+	   # msg = '<msg><cmd>%s</cmd><usn>uuid:%s::%s</usn></msg>' % (cmd, UUID, self.device_target)
 	    #msg = '<msg><cmd>%s</cmd><usn>uuid:%s::%s</usn></msg>' % (cmd, UUID, self.device_target)
             logging.info("Polling request from %s for %s - returned %s",
                          request.getClientIP(),
                          request.path,
-                         cmd)
+                         msg)
             return msg
         else:
             logging.info("Received bogus request from %s for %s",
@@ -223,12 +253,15 @@ class GarageMonitor(object):
             logging.info('State changed from %s to %s', self.garage_door_status['last_state'], current_state)
             self.garage_door_status['last_state'] = current_state
             self.notify_hubs()
-	global time1
-	global time1_int
-	if (time() - time1 >= time1_int):
-	    time1 = time()
-	    self.notify_hubs()
-        # Schedule next check
+	try: 
+	    global time1
+	    global time1_int
+	    if (time() - time1 >= time1_int):
+	        time1 = time()
+	        self.notify_hubs()
+        except:
+                logging.info("Database Hub Notify")
+	# Schedule next check
         reactor.callLater(self.polling_freq, self.check_garage_state, None) # pylint: disable=no-member
 
     def notify_hubs(self):
@@ -244,18 +277,22 @@ class GarageMonitor(object):
 		global urllist
 		mytuple = urllist.partition("/status/")
 		logging.info("Meter Number %s", mytuple[2])
-                msg = dbfunc_st.getMeterValues(mytuple[2])
-		#msg = '<msg><cmd>%s</cmd><usn>uuid:%s::%s</usn></msg>' % (cmd, UUID, self.device_target)
-		logging.info("Message: %s", msg)
-                body = StringProducer(msg)
-                agent = Agent(reactor)
-                req = agent.request(
-                    'POST',
-                    subscription,
-                    Headers({'CONTENT-LENGTH': [len(msg)]}),
-                    body)
-                req.addCallback(self.handle_response)
-                req.addErrback(self.handle_error)
+		try:
+                	msg = dbfunc_st.getMeterValues(mytuple[2])
+		
+			#msg = '<msg><cmd>%s</cmd><usn>[uuid:%s::%s]</usn></msg>' % (cmd, UUID, self.device_target)
+			logging.info("Message: %s", msg)
+                	body = StringProducer(msg)
+                	agent = Agent(reactor)
+                	req = agent.request(
+                    	    'POST',
+                    	    subscription,
+                    	    Headers({'CONTENT-LENGTH': [len(msg)]}),
+                    	    body)
+                	req.addCallback(self.handle_response)
+                	req.addErrback(self.handle_error)
+		except:
+                        logging.info("Database Error")
     def handle_response(self, response): # pylint: disable=no-self-use
         """Handle the SmartThings hub returning a status code to the POST.
            This is actually unexpected - it typically closes the connection
@@ -285,12 +322,13 @@ def main():
     options = arg_proc.parse_args()
 
     device_target = 'urn:schemas-upnp-org:device:funmeter:%d' % (options.device_index)
+    #device_target = 'urn:schemas-upnp-org:device:funmeter:2'
     log_level = logging.INFO
     if options.debug:
         log_level = logging.DEBUG
 
     logging.basicConfig(format='%(asctime)-15s %(levelname)-8s %(message)s', level=log_level)
-
+    logging.info("Device Number: %s",device_target)
     subscription_list = {}
     garage_door_status = {'last_state': 'unknown'}
 
@@ -307,6 +345,30 @@ def main():
                   garage_door_status=garage_door_status)
 
     # HTTP site to handle subscriptions/polling
+    global config
+    if options.device_index == 1:
+        global filename
+        global filename1
+	global UUID
+	global UUID1
+	UUID = UUID1 
+        filename = filename1
+
+    if options.device_index == 2:
+        global filename
+        global filename2
+	global UUID
+	global UUID2
+	UUID = UUID2
+        filename = filename2
+ 
+    config.read(filename)
+    subsribeurl = config.get('section', 'subscribe_url')
+    global urllist
+    urllist = subsribeurl
+    if len(urllist) > 0:
+    	subscription_list[urllist] = {}
+    	subscription_list[urllist]['expiration'] = time() + 24 * 3600
     status_site = server.Site(StatusServer(device_target, subscription_list, garage_door_status))
     reactor.listenTCP(options.http_port, status_site) # pylint: disable=no-member
 

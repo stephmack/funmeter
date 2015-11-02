@@ -5,7 +5,7 @@ sudo cp -f rpi_garage_smartthings.py /usr/local/sbin
 sudo chown root:root /usr/local/sbin/rpi_garage_smartthings.py
 sudo chmod 0755 /usr/local/sbin/rpi_garage_smartthings.py
 
-for IDX in 1
+for IDX in 1 2
 do
     sudo rm -f /etc/init.d/rpi_garage_smartthings${IDX}
     sudo cp rpi_garage_smartthings${IDX} /etc/init.d/rpi_garage_smartthings${IDX}
